@@ -1,0 +1,20 @@
+/* packages */
+@import "tailwindcss";
+@import "animate.css";
+
+/* Font dari @fontsource */
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/poppins/400.css";
+@import "@fontsource/poppins/700.css";
+
+@theme {
+  --font-inter: "Inter", "sans-serif";
+  --font-poppins: "Poppins", "sans-serif";
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500
+  }
+}
