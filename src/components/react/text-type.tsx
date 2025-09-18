@@ -191,4 +191,4 @@ const TextType = ({
   );
 };
 
-export const QTextType = qwikify$(TextType, { eagerness: "load" });
+export const QTextType = qwikify$(TextType, { eagerness: "idle" });

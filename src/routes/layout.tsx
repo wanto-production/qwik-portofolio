@@ -12,5 +12,8 @@ export default component$(() => {
 export const head: DocumentHead = ({ head }) => {
   return {
     title: `ikhwan - ${head.title}`,
+    meta: [
+      { name: "keywords", content: "portofolio,portofolio ikhwan,portofolio ikhwan satrio,ikhwan,ikhwan satrio,young dev portofolio" }
+    ]
   };
 };

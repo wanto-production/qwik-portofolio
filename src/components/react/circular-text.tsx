@@ -121,4 +121,4 @@ const CircularText: React.FC<CircularTextProps> = ({
   );
 };
 
-export const QCircularText = qwikify$(CircularText, { eagerness: "load" });
+export const QCircularText = qwikify$(CircularText, { eagerness: "idle" });

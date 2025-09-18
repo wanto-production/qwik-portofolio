@@ -122,4 +122,4 @@ const BlurText: React.FC<BlurTextProps> = ({
   );
 };
 
-export const QBlurText = qwikify$(BlurText, { eagerness: "load" });
+export const QBlurText = qwikify$(BlurText, { eagerness: "idle" });
