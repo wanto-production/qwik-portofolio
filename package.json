@@ -58,7 +58,6 @@
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
     "@fontsource/poppins": "^5.2.6",
-    "animate.css": "^4.1.1",
     "gsap": "^3.13.0",
     "motion": "^12.23.13",
     "ogl": "^1.0.11",
