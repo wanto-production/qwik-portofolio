@@ -13,19 +13,13 @@ export const StoryTab = component$(() => {
         <div class="space-y-6">
           <div class="space-y-4 text-gray-300 leading-relaxed text-lg">
             <p>
-              Hello! I'm Ikhwan Satrio, a passionate young programmer who fell in love with
-              web development. My journey started with curiosity and has grown into a deep
-              passion for creating beautiful, performant web experiences.
+              My journey started with an old, barely functioning laptop. I first touched programming through Scratch, dragging colorful blocks on screen. Curiosity led me to open VSCode and write my first lines of HTML. Soon, I jumped into React without fully understanding JavaScript — and failed, but kept going.
             </p>
             <p>
-              I specialize in modern frontend frameworks, especially Qwik,Astro and Svelte, because
-              I believe in building fast, efficient applications that users love. Performance
-              isn't just a feature—it's a fundamental requirement.
+              Through persistence and late nights, I gradually built real apps. I fell in love with clean code and fast feedback loops. Today, I proudly craft projects usingTypeScript,NeoVim, and modern frameworks like Nuxt,SvelteKit, andAdonisJS.
             </p>
             <p>
-              When I'm not coding, you'll find me exploring new technologies, playing games,
-              or contributing to open-source projects. I'm always eager to learn and share
-              knowledge with the developer community.
+              I’m still learning, still building, and always excited to solve meaningful problems with code.
             </p>
           </div>
 

@@ -72,7 +72,7 @@ export default component$(() => {
       </section>
 
       {/* Content Sections */}
-      <section class="w-full min-h-screen bg-gradient-to-b from-[#0c0c0c] to-[#1a1a1a] pointer-events-none">
+      <section class="w-full min-h-screen flex items-center bg-gradient-to-b from-[#0c0c0c] to-[#1a1a1a] pointer-events-none">
         <div class="max-w-6xl mx-auto px-6">
           {/* Story Tab */}
           {activeTab.value === 'story' && (<StoryTab />)}
