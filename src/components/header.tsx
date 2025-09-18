@@ -1,6 +1,7 @@
 import { component$, useSignal } from "@builder.io/qwik";
 import Image from "~/assets/favicon.png?jsx";
 import { QFaGithub } from "./icons";
+import { Link } from "@builder.io/qwik-city";
 
 export const Header = component$(() => {
   const isOpen = useSignal(false);
@@ -21,9 +22,10 @@ export const Header = component$(() => {
 
         {/* Desktop Nav */}
         <nav class="hidden md:flex items-center gap-8 font-inter text-gray-300 text-sm">
-          <a href="#about" class="hover:text-white transition">About</a>
-          <a href="#projects" class="hover:text-white transition">Projects</a>
-          <a href="#contact" class="hover:text-white transition">Contact</a>
+          <Link href="/" class="hover:text-white transition">Home</Link>
+          <Link href="/about" class="hover:text-white transition">About</Link>
+          <Link href="/projects" class="hover:text-white transition">Projects</Link>
+          <Link href="/contact" class="hover:text-white transition">Contact</Link>
         </nav>
 
         {/* Github Button (Desktop) */}
@@ -47,23 +49,32 @@ export const Header = component$(() => {
         </button>
       </div>
 
+
       {/* Mobile Nav (Dropdown card style) */}
       <div
-        class={`w-full mt-2 bg-[#0c0c0c]/95 backdrop-blur-md border border-gray-700 rounded-2xl shadow-lg 
-                flex flex-col items-center gap-4 py-6 transition-all duration-300 
-                ${isOpen.value ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}`}
+        class={`md:hidden absolute top-[72px] left-1/2 -translate-x-1/2 w-[90%] 
+          bg-[#0c0c0c]/95 backdrop-blur-md border border-gray-700 
+          rounded-2xl shadow-lg flex flex-col items-center gap-4 py-6 
+          transition-all duration-300 z-40
+          ${isOpen.value
+            ? "opacity-100 scale-100 visible pointer-events-auto"
+            : "opacity-0 scale-95 invisible pointer-events-none"
+          }`}
       >
-        <a href="#about" class="text-gray-300 hover:text-white font-medium">About</a>
-        <a href="#projects" class="text-gray-300 hover:text-white font-medium">Projects</a>
-        <a href="#contact" class="text-gray-300 hover:text-white font-medium">Contact</a>
-        <a
+        <Link href="/" class="text-gray-300 hover:text-white font-medium">Home</Link>
+        <Link href="/about" class="text-gray-300 hover:text-white font-medium">About</Link>
+        <Link href="/projects" class="text-gray-300 hover:text-white font-medium">Projects</Link>
+        <Link href="/contact" class="text-gray-300 hover:text-white font-medium">Contact</Link>
+        <Link
           href="https://github.com/wanto-production"
           target="_blank"
-          class="flex items-center gap-2 px-5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium hover:opacity-90 transition"
+          class="flex items-center gap-2 px-5 py-2 rounded-xl bg-gradient-to-r 
+           from-blue-600 to-purple-600 text-white font-medium 
+           hover:opacity-90 transition"
         >
           <QFaGithub />
           Github
-        </a>
+        </Link>
       </div>
     </header>
   );
