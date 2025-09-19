@@ -1,4 +1,5 @@
 import { component$ } from "@builder.io/qwik";
+import { Link } from "@builder.io/qwik-city";
 
 export const StoryTab = component$(() => {
   return (
@@ -107,31 +108,15 @@ export const SkillsTab = component$(() => {
 })
 
 export const JourneyTab = component$(() => {
-  const timeline = [
-    {
-      year: '2024',
-      title: 'Senior Frontend Developer',
-      company: 'Tech Innovation Co.',
-      description: 'Building modern web apps with Qwik and Svelte, focusing on performance optimization'
-    },
-    {
-      year: '2023',
-      title: 'Full Stack Developer',
-      company: 'Digital Solutions Ltd.',
-      description: 'Developing scalable applications with React, Node.js and TypeScript'
-    },
-    {
-      year: '2022',
-      title: 'Frontend Developer',
-      company: 'Creative Studio',
-      description: 'Creating responsive and interactive user interfaces'
-    },
-    {
-      year: '2021',
-      title: 'Started Programming Journey',
-      company: 'Self-taught Explorer',
-      description: 'Fell in love with web development and modern JavaScript frameworks'
-    }
+  interface Timeline {
+    year: string,
+    title: string,
+    company: string,
+    description: string
+  }
+
+  const timeline: Timeline[] = [
+    // ... data timeline Anda
   ];
 
   return (
@@ -143,30 +128,67 @@ export const JourneyTab = component$(() => {
         <p class="text-gray-400 text-lg">The path that led me to where I am today</p>
       </div>
 
-      <div class="space-y-8 max-w-4xl mx-auto">
-        {timeline.map((item, index) => (
-          <div key={index} class="flex gap-8 group">
-            <div class="flex flex-col items-center flex-shrink-0">
-              <div class="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center font-bold text-white shadow-lg">
-                {item.year}
-              </div>
-              {index < timeline.length - 1 && (
-                <div class="w-px h-20 bg-gradient-to-b from-gray-600 to-transparent mt-4"></div>
-              )}
+      {/* Conditional Rendering */}
+      {timeline.length === 0 ? (
+        // Empty State
+        <div class="max-w-2xl mx-auto text-center py-16">
+          <div class="space-y-6">
+            {/* Icon */}
+            <div class="w-24 h-24 mx-auto bg-gradient-to-r from-gray-700 to-gray-600 rounded-full flex items-center justify-center">
+              <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
             </div>
-            <div class="flex-1 pb-12">
-              <div class="bg-gray-900/50 rounded-2xl p-6 border border-gray-700/50 backdrop-blur-sm group-hover:border-gray-600/50 transition-all duration-300">
-                <h3 class="text-xl font-bold text-white mb-2">{item.title}</h3>
-                <p class="text-blue-400 font-semibold mb-3">{item.company}</p>
-                <p class="text-gray-300 leading-relaxed">{item.description}</p>
-              </div>
+
+            {/* Message */}
+            <div class="space-y-4">
+              <h3 class="text-2xl font-bold text-gray-300">Journey Coming Soon</h3>
+              <p class="text-gray-400 text-lg leading-relaxed">
+                I'm currently building my professional timeline. Check back soon to see my journey unfold!
+              </p>
+            </div>
+
+            {/* Optional CTA */}
+            <div class="pt-6">
+              <Link
+                href="/contact"
+                class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium hover:shadow-lg transition-all duration-300"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.955 8.955 0 01-4.906-1.447l-3.077 1.028a.75.75 0 01-.97-.97l1.028-3.077A8.955 8.955 0 013 12C3 7.582 6.582 4 12 4s8 3.582 8 8z" />
+                </svg>
+                Let's Connect
+              </Link>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ) : (
+        // Timeline Content (existing code)
+        <div class="space-y-8 max-w-4xl mx-auto">
+          {timeline.map((item, index) => (
+            <div key={index} class="flex gap-8 group">
+              <div class="flex flex-col items-center flex-shrink-0">
+                <div class="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center font-bold text-white shadow-lg">
+                  {item.year}
+                </div>
+                {index < timeline.length - 1 && (
+                  <div class="w-px h-20 bg-gradient-to-b from-gray-600 to-transparent mt-4"></div>
+                )}
+              </div>
+              <div class="flex-1 pb-12">
+                <div class="bg-gray-900/50 rounded-2xl p-6 border border-gray-700/50 backdrop-blur-sm group-hover:border-gray-600/50 transition-all duration-300">
+                  <h3 class="text-xl font-bold text-white mb-2">{item.title}</h3>
+                  <p class="text-blue-400 font-semibold mb-3">{item.company}</p>
+                  <p class="text-gray-300 leading-relaxed">{item.description}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
-})
+});
 
 export const InterestTab = component$(() => {
   const interests = [

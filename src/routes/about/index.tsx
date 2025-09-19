@@ -2,8 +2,9 @@ import { component$, useSignal, $ } from '@builder.io/qwik';
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { QTextType } from "~/components/react/text-type";
 import { QBlurText } from "~/components/react/text-blur";
-import Image from "~/assets/nishimiya.jpeg?jsx";
+import { QGlareHover } from '~/components/react/glare-hover';
 import { StoryTab, InterestTab, JourneyTab, SkillsTab } from '~/components/about-tabs';
+import Image from "~/assets/nishimiya.jpeg?jsx";
 
 export default component$(() => {
   const activeTab = useSignal('story');
@@ -19,13 +20,22 @@ export default component$(() => {
 
         {/* Profile Image */}
         <div class="relative ">
-          <div class="relative">
-            <Image
-              class="h-[150px] w-[150px] rounded-full object-cover shadow-2xl border-4 border-gray-700/50"
-            />
-            <div class="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
-              <div class="w-3 h-3 bg-white rounded-full animate-pulse"></div>
-            </div>
+          <div style={{ position: 'relative' }}>
+            <QGlareHover
+              width='150px'
+              height='150px'
+              borderRadius='100%'
+              glareColor="#ffffff"
+              glareOpacity={0.3}
+              glareAngle={-30}
+              glareSize={300}
+              transitionDuration={800}
+              playOnce={false}
+            >
+              <Image
+                class="h-[150px] w-[150px] rounded-full object-cover shadow-2xl border-4 border-gray-700/50"
+              />
+            </QGlareHover>
           </div>
         </div>
 
@@ -72,7 +82,7 @@ export default component$(() => {
       </section>
 
       {/* Content Sections */}
-      <section class="w-full min-h-screen flex items-center bg-gradient-to-b from-[#0c0c0c] to-[#1a1a1a] pointer-events-none">
+      <section class="w-full min-h-screen flex items-center bg-gradient-to-b from-[#0c0c0c] to-[#1a1a1a]">
         <div class="max-w-6xl mx-auto px-6">
           {/* Story Tab */}
           {activeTab.value === 'story' && (<StoryTab />)}
@@ -116,7 +126,7 @@ export default component$(() => {
           </div>
         </div>
       </section>
-    </main>
+    </main >
   );
 });
 
