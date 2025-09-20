@@ -1,5 +1,4 @@
 /** @jsxImportSource react */
-
 import { ElementType, useEffect, useRef, useState, createElement, useMemo, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { qwikify$ } from '@builder.io/qwik-react';
