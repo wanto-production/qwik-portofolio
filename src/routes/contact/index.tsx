@@ -3,14 +3,12 @@ import { routeAction$, Form, type DocumentHead } from "@builder.io/qwik-city";
 import { QBlurText } from "~/components/react/text-blur";
 import { QLightRays } from "~/components/react/light-ray";
 
-export const useSendEmail = routeAction$(async (data, { request }) => {
-  const url = new URL('/api/send-email', request.url)
-  const res = await fetch(url.toString(), {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: { 'Content-Type': 'application/json' },
-  });
-  return await res.json();
+export const useSendEmail = routeAction$(async () => {
+  try {
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: String(err) };
+  }
 })
 
 export default component$(() => {
