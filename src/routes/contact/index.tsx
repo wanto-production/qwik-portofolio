@@ -1,47 +1,60 @@
-import { component$, useSignal, $ } from '@builder.io/qwik';
-import type { DocumentHead } from "@builder.io/qwik-city";
+import { component$ } from '@builder.io/qwik';
+import { routeAction$, Form, type DocumentHead } from "@builder.io/qwik-city";
 import { QBlurText } from "~/components/react/text-blur";
 import { QLightRays } from "~/components/react/light-ray";
+import nodemailer from "nodemailer"
+
+const sendEmail = routeAction$(async (data, requestEvent) => {
+  try {
+    // Konfigurasi transporter Gmail (bisa juga pakai SMTP lain)
+    const transporter = nodemailer.createTransport({
+      service: "gmail", // atau "hotmail", "yahoo"
+      auth: {
+        user: requestEvent.env.get('PRIVATE_EMAIL_USER'), // simpan di vercel env
+        pass: requestEvent.env.get('PRIVATE_EMAIL_PASS'),
+      },
+    });
+
+    // Email yang dikirim
+    await transporter.sendMail({
+      from: `"${String(data.name)}" <${String(data.email)}>`,
+      to: "ikwansatria3974@gmail.com",
+      subject: String(data.subject),
+      text: `
+Kamu menerima pesan baru dari portofolio:
+
+Nama   : ${data.name}
+Email  : ${data.email}
+Subjek : ${data.subject}
+Pesan  :
+${data.message}
+
+------------------------
+Ini dikirim otomatis dari form kontak portofolio
+`,
+      html: `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <h2 style="color: #1a73e8;">📩 Pesan Baru dari Portofolio</h2>
+      <p><strong>Nama:</strong> ${data.name}</p>
+      <p><strong>Email:</strong> ${data.email}</p>
+      <p><strong>Subjek:</strong> ${data.subject}</p>
+      <p><strong>Pesan:</strong><br/>${String(data.message).replace(/\n/g, "<br/>")}</p>
+      <hr/>
+      <p style="font-size: 0.9em; color: #666;">Ini dikirim otomatis dari form kontak portofolio</p>
+    </div>
+  `,
+
+    });
+
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: String(err) };
+  }
+})
 
 export default component$(() => {
-  const formData = useSignal({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
+  const action = sendEmail()
 
-  const isSubmitting = useSignal(false);
-  const submitStatus = useSignal<'idle' | 'success' | 'error'>('idle');
-
-  const updateField = $((field: string, value: string) => {
-    formData.value = {
-      ...formData.value,
-      [field]: value
-    };
-  });
-
-  const handleSubmit = $(async (event: Event) => {
-    event.preventDefault();
-    isSubmitting.value = true;
-
-    // Simulate form submission
-    setTimeout(() => {
-      isSubmitting.value = false;
-      submitStatus.value = 'success';
-      // Reset form
-      formData.value = {
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      };
-      // Reset status after 3 seconds
-      setTimeout(() => {
-        submitStatus.value = 'idle';
-      }, 3000);
-    }, 1500);
-  });
 
   const contactMethods = [
     {
@@ -183,7 +196,7 @@ export default component$(() => {
                 </p>
               </div>
 
-              <div preventdefault:submit onSubmit$={handleSubmit} class="space-y-6">
+              <Form action={action} class="space-y-6">
                 {/* Name & Email Row */}
                 <div class="grid md:grid-cols-2 gap-6">
                   <div>
@@ -193,9 +206,8 @@ export default component$(() => {
                     <input
                       type="text"
                       id="name"
+                      name='name'
                       required
-                      value={formData.value.name}
-                      onInput$={(e) => updateField('name', (e.target as HTMLInputElement).value)}
                       class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                       placeholder="Your name"
                     />
@@ -207,9 +219,8 @@ export default component$(() => {
                     <input
                       type="email"
                       id="email"
+                      name='email'
                       required
-                      value={formData.value.email}
-                      onInput$={(e) => updateField('email', (e.target as HTMLInputElement).value)}
                       class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                       placeholder="your@email.com"
                     />
@@ -224,9 +235,8 @@ export default component$(() => {
                   <input
                     type="text"
                     id="subject"
+                    name='subject'
                     required
-                    value={formData.value.subject}
-                    onInput$={(e) => updateField('subject', (e.target as HTMLInputElement).value)}
                     class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                     placeholder="Project discussion, collaboration, etc."
                   />
@@ -239,10 +249,9 @@ export default component$(() => {
                   </label>
                   <textarea
                     id="message"
+                    name='message'
                     required
                     rows={6}
-                    value={formData.value.message}
-                    onInput$={(e) => updateField('message', (e.target as HTMLTextAreaElement).value)}
                     class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
                     placeholder="Tell me about your project, ideas, or just say hello..."
                   ></textarea>
@@ -252,20 +261,23 @@ export default component$(() => {
                 <div>
                   <button
                     type="submit"
-                    disabled={isSubmitting.value}
-                    class={`w-full px-8 py-4 rounded-xl font-medium text-white transition-all duration-300 ${isSubmitting.value
-                      ? 'bg-gray-600 cursor-not-allowed'
-                      : submitStatus.value === 'success'
-                        ? 'bg-green-600 hover:bg-green-700'
-                        : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-lg hover:scale-105'
+                    disabled={action.isRunning}
+                    class={`w-full px-8 py-4 rounded-xl font-medium text-white transition-all duration-300
+                      ${action.isRunning
+                        ? 'bg-gray-600 cursor-not-allowed'
+                        : action.value?.success
+                          ? 'bg-green-600 hover:bg-green-700'
+                          : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-lg hover:scale-105'
                       }`}
                   >
-                    {isSubmitting.value ? (
-                      <div class="flex items-center justify-center gap-2">
-                        <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    {action.isRunning ? (
+                      <div class="flex items-center justify-center gap-2 animate-pulse">
+                        <svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="12" r="10" stroke-width="4" stroke="currentColor" stroke-dasharray="31.4" stroke-dashoffset="0"></circle>
+                        </svg>
                         Sending...
                       </div>
-                    ) : submitStatus.value === 'success' ? (
+                    ) : action.value?.success ? (
                       <div class="flex items-center justify-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -278,12 +290,16 @@ export default component$(() => {
                   </button>
                 </div>
 
-                {submitStatus.value === 'success' && (
+                {action.value?.success ? (
                   <div class="p-4 bg-green-600/20 border border-green-600/50 rounded-lg text-green-400 text-sm">
                     Thanks for reaching out! I'll get back to you soon.
                   </div>
+                ) : action.value?.error && (
+                  <div class="p-4 bg-red-600/20 border border-red-600/50 rounded-lg text-red-400 text-sm">
+                    {action.value?.error}
+                  </div>
                 )}
-              </div>
+              </Form>
             </div>
 
             {/* Contact Info */}
@@ -411,7 +427,7 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-  title: "Contact - Ikhwan Satrio",
+  title: "Contact",
   meta: [
     {
       name: "description",
