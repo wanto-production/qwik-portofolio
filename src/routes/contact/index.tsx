@@ -51,8 +51,8 @@ export default component$(() => {
         </svg>
       ),
       title: 'Email',
-      value: 'hello@ikhwansatrio.dev',
-      href: 'mailto:hello@ikhwansatrio.dev',
+      value: 'ikwansatria3974@gmail.com',
+      href: 'mailto:ikwansatria3974@gmail.com',
       description: 'Drop me a line anytime'
     },
     {
