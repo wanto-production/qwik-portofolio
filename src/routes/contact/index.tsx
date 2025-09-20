@@ -4,7 +4,7 @@ import { QBlurText } from "~/components/react/text-blur";
 import { QLightRays } from "~/components/react/light-ray";
 import nodemailer from "nodemailer"
 
-const sendEmail = routeAction$(async (data, requestEvent) => {
+export const useSendEmail = routeAction$(async (data, requestEvent) => {
   try {
     // Konfigurasi transporter Gmail (bisa juga pakai SMTP lain)
     const transporter = nodemailer.createTransport({
@@ -53,7 +53,7 @@ Ini dikirim otomatis dari form kontak portofolio
 })
 
 export default component$(() => {
-  const action = sendEmail()
+  const action = useSendEmail()
 
 
   const contactMethods = [
@@ -407,7 +407,7 @@ export default component$(() => {
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="mailto:hello@ikhwansatrio.dev"
+                href="mailto:ikwansatria3974@gmail.com"
                 class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
               >
                 Start the Conversation
