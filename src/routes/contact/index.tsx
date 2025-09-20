@@ -18,7 +18,7 @@ const sendEmail = routeAction$(async (data, requestEvent) => {
     // Email yang dikirim
     await transporter.sendMail({
       from: `"${String(data.name)}" <${String(data.email)}>`,
-      to: "ikwansatria3974@gmail.com",
+      to: requestEvent.env.get('PRIVATE_EMAIL_USER'),
       subject: String(data.subject),
       text: `
 Kamu menerima pesan baru dari portofolio:
