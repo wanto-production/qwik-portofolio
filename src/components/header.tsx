@@ -42,7 +42,7 @@ export const Header = component$(() => {
 
         {/* Mobile Toggle */}
         <button
-          class="md:hidden text-gray-300 hover:text-white"
+          class="md:hidden text-center text-gray-300 hover:text-white"
           onClick$={() => (isOpen.value = !isOpen.value)}
         >
           <i class={`fa-solid ${isOpen.value ? "fa-xmark" : "fa-bars"} text-xl`} />
