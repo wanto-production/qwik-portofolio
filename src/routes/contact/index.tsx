@@ -3,35 +3,28 @@ import { routeAction$, Form, type DocumentHead } from "@builder.io/qwik-city";
 import { QBlurText } from "~/components/react/text-blur";
 import { QLightRays } from "~/components/react/light-ray";
 import { Resend } from 'resend';
+import ContactEmail from '~/components/emails/ContactTemplate';
+import { render } from '@react-email/components';
 
 export const useSendEmail = routeAction$(async (data, requestEvent) => {
   try {
+    const { name, email, subject, message } = data as {
+      name: string;
+      email: string;
+      subject: string;
+      message: string;
+    };
+
+    const htmlTemplate = await render(ContactEmail({ name, email, subject, message }))
     const resend = new Resend(requestEvent.env.get('PRIVATE_RESEND_PASS'));
 
-    const { name, email, subject, message } = data;
 
     // Kirim email via Resend
     await resend.emails.send({
       from: `${name} <onboarding@resend.dev>`, // email resmi atau domain kamu
       to: 'ikwansatria3974@gmail.com', // email kamu
       subject: String(subject),
-      text: `
-Nama: ${name}
-Email: ${email}
-Pesan:
-${message}
-      `,
-      html: `
-        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-          <h2>📩 Pesan Baru dari Portofolio</h2>
-          <p><strong>Nama:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Subjek:</strong> ${subject}</p>
-          <p><strong>Pesan:</strong><br/>${String(message).replace(/\n/g, "<br/>")}</p>
-          <hr/>
-          <p style="font-size: 0.9em; color: #666;">Dikirim otomatis dari form portofolio</p>
-        </div>
-      `,
+      html: htmlTemplate
     });
     return { success: true };
   } catch (err) {

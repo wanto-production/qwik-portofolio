@@ -59,6 +59,7 @@
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
     "@fontsource/poppins": "^5.2.6",
+    "@react-email/components": "^0.5.4",
     "@types/nodemailer": "^7.0.1",
     "gsap": "^3.13.0",
     "motion": "^12.23.13",
